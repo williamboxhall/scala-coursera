@@ -23,9 +23,7 @@ object Lists {
    * @param xs A list of natural numbers
    * @return The sum of all elements in `xs`
    */
-  def sum(xs: List[Int]): Int = {
-    if (xs.isEmpty) 0 else xs.head + sum(xs.tail)
-  }
+  def sum(xs: List[Int]): Int = if (xs.isEmpty) 0 else xs.head + sum(xs.tail)
 
   /**
    * This method returns the largest element in a list of integers. If the
