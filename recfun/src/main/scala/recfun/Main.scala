@@ -21,24 +21,22 @@ object Main {
    * Exercise 2
    */
   def balance(chars: List[Char]): Boolean = {
+    def closesNeededFor(char: Char): Int = {
+      char match {
+        case '(' => 1
+        case ')' => -1
+        case _ => 0
+      }
+    }
     def balance(numClosesNeeded: Int, chars: List[Char]): Boolean = {
       if (chars.isEmpty) {
         return numClosesNeeded == 0
       }
-
-      val head = chars.head
-
-      if (head == '(') {
-        balance(numClosesNeeded + 1, chars.tail)
-      } else if (head == ')') {
-        if (numClosesNeeded == 0) {
-          false
-        } else {
-          balance(numClosesNeeded - 1, chars.tail)
-        }
-      } else {
-        balance(numClosesNeeded, chars.tail)
+      if (chars.head == ')' && numClosesNeeded == 0) {
+        return false
       }
+
+      balance(numClosesNeeded + closesNeededFor(chars.head), chars.tail)
     }
     balance(0, chars)
   }
