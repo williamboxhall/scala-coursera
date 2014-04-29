@@ -42,26 +42,11 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-    // degenerative case
-    if (coins.isEmpty) {
-      return 0
-    }
-
-    // corner cases
-    if (money == 0) {
-      return 1
-    }
-    if (coins.head > money) {
-
-    }
-
-    // actual recursion
     def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
       if (runningTotal == money) 1
-      else if (runningTotal > money) 0
+      else if (runningTotal > money || coins.isEmpty) 0
       else countChange(runningTotal + coins.head, money, coins)
     }
     countChange(0, money, coins)
-
   }
 }
