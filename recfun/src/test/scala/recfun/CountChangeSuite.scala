@@ -27,8 +27,12 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: minimalist negative example") {
-      assert(countChange(3, List(2)) === 0)
-    }
+    assert(countChange(3, List(2)) === 0)
+  }
+
+  test("countChange: minimalist always include first denomination") {
+    assert(countChange(3, List(1, 2)) === 2)
+  }
 
   test("countChange: example given in instructions") {
     assert(countChange(4, List(1, 2)) === 3)

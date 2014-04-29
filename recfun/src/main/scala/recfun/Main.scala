@@ -43,9 +43,14 @@ object Main {
    */
   def countChange(money: Int, coins: List[Int]): Int = {
     def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
-      if (runningTotal == money) 1
-      else if (runningTotal > money || coins.isEmpty) 0
-      else countChange(runningTotal + coins.head, money, coins)
+      if (runningTotal > money || coins.isEmpty) 0
+      else if (runningTotal + coins.head == money) {
+        println("hi")
+        1
+      }
+      // coins.tail to get '2'
+      else countChange(runningTotal + coins.head, money, coins) +
+        countChange(runningTotal + coins.head, money, coins.tail)
     }
     countChange(0, money, coins)
   }
