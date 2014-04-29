@@ -47,7 +47,7 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: medium sized example non-divisible denominations") {
-    assert(countChange(15, List(2, 4, 7)) === 5) // 2,2,2,2,7  2,2,4,7  4,4,7
+    assert(countChange(15, List(2, 4, 7)) === 3) // 2,2,2,2,7  2,2,4,7  4,4,7
   }
 
   test("countChange: sorted CHF") {
@@ -63,6 +63,6 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: large CHF") {
-    assert(countChange(2, List.range(1, 1000)) === 2)
+    assert(countChange(3, List.range(1, 100000)) === 5)
   }
 }
