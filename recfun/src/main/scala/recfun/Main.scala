@@ -36,14 +36,12 @@ object Main {
     balance(0, chars)
   }
 
-  //1,1,1,1   1,1,2   2,2
-
   /**
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
     def countChange(runningTotal: Int, money: Int, coins: List[Int], sequence: List[Int]): Int = {
-      if (runningTotal > money || coins.isEmpty) 0
+      if (runningTotal > money || coins.isEmpty || coins.head > money) 0
       else {
         if (runningTotal + coins.head == money) {
           val successfulSequence = sequence :+ coins.head
@@ -51,7 +49,6 @@ object Main {
           1
         } else {
           countChange(runningTotal + coins.head, money, coins, sequence :+ coins.head) +
-            //countChange(runningTotal + coins.head, money, coins.tail, sequence :+ coins.head) +
             countChange(runningTotal, money, coins.tail, sequence)
 
         }
@@ -59,6 +56,4 @@ object Main {
     }
     countChange(0, money, coins.sorted, Nil)
   }
-
-
 }

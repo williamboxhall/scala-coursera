@@ -63,6 +63,6 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: large CHF") {
-    assert(countChange(3, List.range(1, 100000)) === 5)
+    assert(countChange(3, List.range(1, 100000)) === 3) // 1,1,1  1,2  3
   }
 }
