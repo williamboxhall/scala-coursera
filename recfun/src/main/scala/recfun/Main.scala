@@ -32,12 +32,11 @@ object Main {
 
   def countChange(money: Int, coins: List[Int]): Int = {
     def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
-      if (runningTotal > money || coins.isEmpty || coins.head > money) 0
-      else {
-        if (runningTotal + coins.head == money) 1
-        else countChange(runningTotal, money, coins.tail) +
-          countChange(runningTotal + coins.head, money, coins)
-      }
+      if (coins.isEmpty || runningTotal > money || coins.head > money) 0
+      else if (runningTotal + coins.head == money) 1
+      else countChange(runningTotal, money, coins.tail) +
+        countChange(runningTotal + coins.head, money, coins)
+
     }
     countChange(0, money, coins.sorted)
   }
