@@ -26,6 +26,18 @@ class CountChangeSuite extends FunSuite {
     assert(countChange(4, List(1, 2)) === 3)
   }
 
+  test("countChange: denominations don't individually divide in to amount") {
+    assert(countChange(5, List(2, 3)) === 1)
+  }
+
+  test("countChange: medium sized example") {
+    assert(countChange(5, List(1, 2, 3)) === 5) //1,1,1,1,1  1,1,1,2  1,1,3  1,2,2  2,3
+  }
+
+  test("countChange: medium sized example non-divisible denominations") {
+    assert(countChange(15, List(2, 4, 7)) === 5) // 2,2,2,2,7  2,2,4,7  4,4,7
+  }
+
   test("countChange: sorted CHF") {
     assert(countChange(300, List(5, 10, 20, 50, 100, 200, 500)) === 1022)
   }
@@ -36,5 +48,9 @@ class CountChangeSuite extends FunSuite {
 
   test("countChange: unsorted CHF") {
     assert(countChange(300, List(500, 5, 50, 100, 20, 200, 10)) === 1022)
+  }
+
+  test("countChange: large CHF") {
+    assert(countChange(2, List.range(1, 1000)) === 2)
   }
 }

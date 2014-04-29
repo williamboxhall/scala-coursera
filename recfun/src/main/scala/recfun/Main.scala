@@ -41,16 +41,32 @@ object Main {
     balance(0, chars)
   }
 
+  //1,1,1,1   1,1,2   2,2
+
   /**
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
     if (money == 0) {
-      1
+      return 1
     }
-    if (coins.isEmpty) {
-      0
+    if (coins.isEmpty || coins.head > money) {
+      return 0
     }
-    5
+
+    val denom = coins.head
+
+    // 1,1,1,1
+    // 1,1,2
+    // 1,2,1 <wraong>
+    // 2,2
+
+    // recurse on smallest number till over the top. if finished, round 2
+    var count = 0;
+    var solutions = Set[Int]
+
+
+
+    7
   }
 }
