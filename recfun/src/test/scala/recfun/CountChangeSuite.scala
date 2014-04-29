@@ -15,15 +15,15 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: one way to count change for zero amount and zero CHF") {
-    countChange(0, Nil) === 1
+    countChange(0, Nil) === 1 // special case
   }
 
   test("countChange: one way to count change for zero amount and non-zero CHF") {
-    countChange(0, List(1, 2)) === 1
+    countChange(0, List(1, 2)) === 1 // special case
   }
 
   test("countChange: minimalist positive example") {
-    assert(countChange(3, List(1)) === 1)
+    assert(countChange(3, List(1)) === 1) // 1,1,1
   }
 
   test("countChange: minimalist negative example") {
@@ -31,19 +31,19 @@ class CountChangeSuite extends FunSuite {
   }
 
   test("countChange: minimalist always include first denomination") {
-    assert(countChange(3, List(1, 2)) === 2)
+    assert(countChange(3, List(1, 2)) === 2) // 1,1,1  1,2
   }
 
   test("countChange: example given in instructions") {
-    assert(countChange(4, List(1, 2)) === 3)
+    assert(countChange(4, List(1, 2)) === 3) // 1,1,1,1  1,1,2  2,2
   }
 
   test("countChange: denominations don't individually divide in to amount") {
-    assert(countChange(5, List(2, 3)) === 1)
+    assert(countChange(5, List(2, 3)) === 1) // 2,3
   }
 
   test("countChange: medium sized example") {
-    assert(countChange(5, List(1, 2, 3)) === 5) //1,1,1,1,1  1,1,1,2  1,1,3  1,2,2  2,3
+    assert(countChange(5, List(1, 2, 3)) === 5) // 1,1,1,1,1  1,1,1,2  1,1,3  1,2,2  2,3
   }
 
   test("countChange: medium sized example non-divisible denominations") {

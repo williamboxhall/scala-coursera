@@ -40,20 +40,14 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-    def countChange(runningTotal: Int, money: Int, coins: List[Int], sequence: List[Int]): Int = {
+    def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
       if (runningTotal > money || coins.isEmpty || coins.head > money) 0
       else {
-        if (runningTotal + coins.head == money) {
-          val successfulSequence = sequence :+ coins.head
-          println(s"Found match on $successfulSequence")
-          1
-        } else {
-          countChange(runningTotal + coins.head, money, coins, sequence :+ coins.head) +
-            countChange(runningTotal, money, coins.tail, sequence)
-
-        }
+        if (runningTotal + coins.head == money) 1
+        else countChange(runningTotal, money, coins.tail) +
+          countChange(runningTotal + coins.head, money, coins)
       }
     }
-    countChange(0, money, coins.sorted, Nil)
+    countChange(0, money, coins.sorted)
   }
 }
