@@ -29,14 +29,9 @@ object Main {
       }
     }
     def balance(numClosesNeeded: Int, chars: List[Char]): Boolean = {
-      if (chars.isEmpty) {
-        return numClosesNeeded == 0
-      }
-      if (chars.head == ')' && numClosesNeeded == 0) {
-        return false
-      }
-
-      balance(numClosesNeeded + closesNeededFor(chars.head), chars.tail)
+      if (chars.isEmpty) numClosesNeeded == 0
+      else if (chars.head == ')' && numClosesNeeded == 0) false
+      else balance(numClosesNeeded + closesNeededFor(chars.head), chars.tail)
     }
     balance(0, chars)
   }
@@ -63,7 +58,7 @@ object Main {
 
     // recurse on smallest number till over the top. if finished, round 2
     var count = 0;
-    var solutions = Set[Int]
+    //var solutions = Set[Int]
 
 
 
