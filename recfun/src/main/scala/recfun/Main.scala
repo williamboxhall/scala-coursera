@@ -21,17 +21,17 @@ object Main {
    * Exercise 2
    */
   def balance(chars: List[Char]): Boolean = {
-    def closesNeededFor(char: Char): Int = {
+    def deltaFor(char: Char): Int = {
       char match {
         case '(' => 1
         case ')' => -1
         case _ => 0
       }
     }
-    def balance(numClosesNeeded: Int, chars: List[Char]): Boolean = {
-      if (chars.isEmpty) numClosesNeeded == 0
-      else if (chars.head == ')' && numClosesNeeded == 0) false
-      else balance(numClosesNeeded + closesNeededFor(chars.head), chars.tail)
+    def balance(depth: Int, chars: List[Char]): Boolean = {
+      if (chars.isEmpty) depth == 0
+      else if (chars.head == ')' && depth == 0) false
+      else balance(depth + deltaFor(chars.head), chars.tail)
     }
     balance(0, chars)
   }
@@ -42,26 +42,26 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-    if (money == 0) {
-      return 1
-    }
-    if (coins.isEmpty || coins.head > money) {
+    // degenerative case
+    if (coins.isEmpty) {
       return 0
     }
 
-    val denom = coins.head
+    // corner cases
+    if (money == 0) {
+      return 1
+    }
+    if (coins.head > money) {
 
-    // 1,1,1,1
-    // 1,1,2
-    // 1,2,1 <wraong>
-    // 2,2
+    }
 
-    // recurse on smallest number till over the top. if finished, round 2
-    var count = 0;
-    //var solutions = Set[Int]
+    // actual recursion
+    def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
+      if (runningTotal == money) 1
+      else if (runningTotal > money) 0
+      else countChange(runningTotal + coins.head, money, coins)
+    }
+    countChange(0, money, coins)
 
-
-
-    7
   }
 }

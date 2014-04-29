@@ -22,6 +22,14 @@ class CountChangeSuite extends FunSuite {
     countChange(0, List(1, 2)) === 1
   }
 
+  test("countChange: minimalist positive example") {
+    assert(countChange(3, List(1)) === 1)
+  }
+
+  test("countChange: minimalist negative example") {
+      assert(countChange(3, List(2)) === 0)
+    }
+
   test("countChange: example given in instructions") {
     assert(countChange(4, List(1, 2)) === 3)
   }
