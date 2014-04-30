@@ -42,6 +42,10 @@ class CountChangeSuite extends FunSuite {
     assert(countChange(5, List(2, 3)) === 1) // 2,3
   }
 
+  test("countChange: need multiple copies of multiple parts") {
+    assert(countChange(11, List(1, 2, 3)) === 16)
+  }
+
   test("countChange: medium sized example") {
     assert(countChange(5, List(1, 2, 3)) === 5) // 1,1,1,1,1  1,1,1,2  1,1,3  1,2,2  2,3
   }
