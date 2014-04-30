@@ -22,6 +22,11 @@ class CountChangeSuite extends FunSuite {
     countChange(0, List(1, 2)) === 1 // special case
   }
 
+  test("countChange: single coin matching money") {
+    assert(countChange(1, List(1)) === 1) // 1
+  }
+
+
   test("countChange: minimalist positive example") {
     assert(countChange(3, List(1)) === 1) // 1,1,1
   }
@@ -68,5 +73,9 @@ class CountChangeSuite extends FunSuite {
 
   test("countChange: large CHF") {
     assert(countChange(3, List.range(1, 100000)) === 3) // 1,1,1  1,2  3
+  }
+
+  test("countChange: duplicate items in CHF") {
+    assert(countChange(2, List.fill(100000)(1)) === 1) // 1,1
   }
 }

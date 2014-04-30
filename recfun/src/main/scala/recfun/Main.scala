@@ -1,5 +1,7 @@
 package recfun
 
+import collection.SortedSet
+
 object Main {
   def main(args: Array[String]) {
     println("Pascal's Triangle")
@@ -31,13 +33,12 @@ object Main {
   }
 
   def countChange(money: Int, coins: List[Int]): Int = {
-    def countChange(runningTotal: Int, money: Int, coins: List[Int]): Int = {
-      if (coins.isEmpty || runningTotal > money || coins.head > money) 0
-      else if (runningTotal + coins.head == money) 1
-      else countChange(runningTotal, money, coins.tail) +
-        countChange(runningTotal + coins.head, money, coins)
+    def countChange(money: Int, coins: SortedSet[Int]): Int = {
+      if (coins.isEmpty || coins.head > money) 0
+      else if (coins.head == money) 1
+      else countChange(money, coins.tail) + countChange(money - coins.head, coins)
 
     }
-    countChange(0, money, coins.sorted)
+    countChange(money, coins.to[SortedSet])
   }
 }
