@@ -37,7 +37,6 @@ object Main {
       if (coins.isEmpty || coins.head > money) 0
       else if (coins.head == money) 1
       else countChange(money, coins.tail) + countChange(money - coins.head, coins)
-
     }
     countChange(money, coins.to[SortedSet])
   }
