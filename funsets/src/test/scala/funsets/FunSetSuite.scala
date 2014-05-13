@@ -48,8 +48,18 @@ class FunSetSuite extends FunSuite {
 
   test("diff contains the elements in the first set that don't exist in the second") {
     val s = diff(union(singletonSet(1), singletonSet(2)), union(singletonSet(2), singletonSet(3)))
-    assert(contains(s, 1), "Intersect 1")
-    assert(!contains(s, 2), "Intersect 2")
-    assert(!contains(s, 3), "Intersect 3")
+    assert(contains(s, 1), "Diff 1")
+    assert(!contains(s, 2), "Diff 2")
+    assert(!contains(s, 3), "Diff 3")
+  }
+
+  test("filter retains from set those elements that match the predicate") {
+    val oneTwoThreeFour = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    val evens = filter(oneTwoThreeFour, x => x % 2 == 0)
+
+    assert(!contains(evens, 1), "Filter 1")
+    assert(contains(evens, 2), "Filter 2")
+    assert(!contains(evens, 3), "Filter 3")
+    assert(contains(evens, 4), "Filter 4")
   }
 }
