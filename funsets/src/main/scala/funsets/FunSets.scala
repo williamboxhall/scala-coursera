@@ -21,6 +21,11 @@ object FunSets {
   def singletonSet(elem: Int): Set = _ == elem
 
   /**
+   * Returns an empty Set.
+   */
+  def empty: Set = x => false
+
+  /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
@@ -76,7 +81,14 @@ object FunSets {
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: Set, f: Int => Int): Set = ???
+  def map(s: Set, f: Int => Int): Set = {
+    def iter(a: Int): Set = {
+      if (a == 1000) empty
+      else if (s(a)) union(singletonSet(f(a)), iter(a + 1))
+      else iter(a + 1)
+    }
+    iter(-1000)
+  }
 
   /**
    * Displays the contents of a set

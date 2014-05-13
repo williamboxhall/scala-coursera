@@ -92,4 +92,12 @@ class FunSetSuite extends FunSuite {
     val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
     assert(!exists(s, _ > 4), "exists none match")
   }
+
+  test("map changes all elements") {
+    val s = map(union(singletonSet(1), singletonSet(2)), _ + 2)
+    assert(!contains(s, 1))
+    assert(!contains(s, 2))
+    assert(contains(s, 3))
+    assert(contains(s, 4))
+  }
 }
