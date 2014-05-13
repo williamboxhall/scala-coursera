@@ -95,10 +95,22 @@ class FunSetSuite extends FunSuite {
 
   test("map changes all elements") {
     val s = map(union(singletonSet(1), singletonSet(2)), _ + 2)
-    printSet(s)
     assert(!contains(s, 1))
     assert(!contains(s, 2))
     assert(contains(s, 3))
     assert(contains(s, 4))
+  }
+
+  test("map works for numbers at the boundary") {
+    val s = union(union(union(union(union(singletonSet(1), singletonSet(3)), singletonSet(4)), singletonSet(5)), singletonSet(7)), singletonSet(1000))
+    val mapped = map(s, _ - 1)
+    assert(contains(mapped, 0))
+    assert(contains(mapped, 2))
+    assert(contains(mapped, 3))
+    assert(contains(mapped, 4))
+    assert(contains(mapped, 6))
+    assert(contains(mapped, 999))
+
+    assert(FunSets.toString(mapped) == "{0,2,3,4,6,999}")
   }
 }
