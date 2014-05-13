@@ -62,4 +62,19 @@ class FunSetSuite extends FunSuite {
     assert(!contains(evens, 3), "Filter 3")
     assert(contains(evens, 4), "Filter 4")
   }
+
+  test("forAll is true when all match") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(forall(s, _ < 5), "forAll all match")
+  }
+
+  test("forAll is false when one does not match") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(!forall(s, _ < 4), "forAll one does not match")
+  }
+
+  test("forAll is false when none match") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(!forall(s, _ > 4), "forAll none match")
+  }
 }
