@@ -38,4 +38,11 @@ class FunSetSuite extends FunSuite {
     assert(contains(s, 2), "Union 2")
     assert(!contains(s, 3), "Union 3")
   }
+
+  test("intersect contains only common elements") {
+    val s = intersect(union(singletonSet(1), singletonSet(2)), union(singletonSet(2), singletonSet(3)))
+    assert(!contains(s, 1), "Intersect 1")
+    assert(contains(s, 2), "Intersect 2")
+    assert(!contains(s, 3), "Intersect 3")
+  }
 }
