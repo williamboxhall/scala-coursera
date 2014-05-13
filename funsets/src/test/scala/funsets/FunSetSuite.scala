@@ -32,7 +32,7 @@ class FunSetSuite extends FunSuite {
     assert(contains(singletonSet(3), 3), "Singleton")
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     val s = union(singletonSet(1), singletonSet(2))
     assert(contains(s, 1), "Union 1")
     assert(contains(s, 2), "Union 2")
