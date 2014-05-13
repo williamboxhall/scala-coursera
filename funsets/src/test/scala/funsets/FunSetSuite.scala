@@ -45,4 +45,11 @@ class FunSetSuite extends FunSuite {
     assert(contains(s, 2), "Intersect 2")
     assert(!contains(s, 3), "Intersect 3")
   }
+
+  test("diff contains the elements in the first set that don't exist in the second") {
+    val s = diff(union(singletonSet(1), singletonSet(2)), union(singletonSet(2), singletonSet(3)))
+    assert(contains(s, 1), "Intersect 1")
+    assert(!contains(s, 2), "Intersect 2")
+    assert(!contains(s, 3), "Intersect 3")
+  }
 }
