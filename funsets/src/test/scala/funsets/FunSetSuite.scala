@@ -95,6 +95,7 @@ class FunSetSuite extends FunSuite {
 
   test("map changes all elements") {
     val s = map(union(singletonSet(1), singletonSet(2)), _ + 2)
+    printSet(s)
     assert(!contains(s, 1))
     assert(!contains(s, 2))
     assert(contains(s, 3))
