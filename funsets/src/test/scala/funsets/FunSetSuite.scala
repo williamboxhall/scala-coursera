@@ -77,4 +77,19 @@ class FunSetSuite extends FunSuite {
     val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
     assert(!forall(s, _ > 4), "forAll none match")
   }
+
+  test("exists is true when all match") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(exists(s, _ < 5), "exists all match")
+  }
+
+  test("exists is true only one matches") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(exists(s, _ == 1), "exists one match")
+  }
+
+  test("exists is false when none match") {
+    val s = union(union(union(singletonSet(1), singletonSet(2)), singletonSet(3)), singletonSet(4))
+    assert(!exists(s, _ > 4), "exists none match")
+  }
 }
