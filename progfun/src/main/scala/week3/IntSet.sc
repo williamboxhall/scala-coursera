@@ -28,12 +28,11 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
     else this
 
   override def union(other: IntSet): IntSet = {
-    other.union(left).union(right).incl(elem)
+    ((left union right) union other) incl elem
   }
 
   override def toString = "{" + left + elem + right + "}"
 }
-
 val foo = Empty.incl(1).incl(2).incl(3)
 val bar = Empty.incl(4).incl(5).incl(6)
 val baz = Empty.union(Empty.incl(1))
