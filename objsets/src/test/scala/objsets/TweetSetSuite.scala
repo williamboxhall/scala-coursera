@@ -92,9 +92,4 @@ class TweetSetSuite extends FunSuite {
       assert(new Empty().incl(tweet).toString == new Empty().incl(tweet).incl(tweet).toString)
     }
   }
-
-  test("google/apple trending") {
-    println(GoogleVsApple.googleTweets)
-    println(GoogleVsApple.appleTweets)
-  }
 }
