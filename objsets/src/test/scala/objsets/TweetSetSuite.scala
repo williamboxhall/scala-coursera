@@ -10,8 +10,9 @@ import java.util.NoSuchElementException
 class TweetSetSuite extends FunSuite {
 
   trait TestSets {
+    val tweet: Tweet = new Tweet("a", "a body", 20)
     val set1 = new Empty
-    val set2 = set1.incl(new Tweet("a", "a body", 20))
+    val set2 = set1.incl(tweet)
     val set3 = set2.incl(new Tweet("b", "b body", 20))
     val c = new Tweet("c", "c body", 7)
     val d = new Tweet("d", "d body", 9)
@@ -84,5 +85,16 @@ class TweetSetSuite extends FunSuite {
     intercept[NoSuchElementException] {
       new Empty().mostRetweeted
     }
+  }
+
+  test("incl does not add element if already exists") {
+    new TestSets {
+      assert(new Empty().incl(tweet).toString == new Empty().incl(tweet).incl(tweet).toString)
+    }
+  }
+
+  test("google/apple trending") {
+    println(GoogleVsApple.googleTweets)
+    println(GoogleVsApple.appleTweets)
   }
 }
