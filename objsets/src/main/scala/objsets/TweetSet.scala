@@ -63,7 +63,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -74,8 +74,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
-
+  def descendingByRetweet: TweetList
 
   /**
    * The following methods are already implemented
@@ -105,24 +104,23 @@ abstract class TweetSet {
   def foreach(f: Tweet => Unit): Unit
 }
 
-class Empty extends TweetSet {
+object Empty extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
-
-
-  /**
-   * The following methods are already implemented
-   */
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = this
 
   def contains(tweet: Tweet): Boolean = false
 
-  def incl(tweet: Tweet): TweetSet = new NonEmpty(tweet, new Empty, new Empty)
+  def incl(tweet: Tweet): TweetSet = new NonEmpty(tweet, Empty, Empty)
 
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
 
   override def union(that: TweetSet): TweetSet = that
+
+  override def descendingByRetweet: TweetList = Nil
+
+  override def mostRetweeted: Tweet = throw new NoSuchElementException("Empty.mostRetweeted")
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -157,6 +155,15 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   override def union(that: TweetSet): TweetSet = ((left union right) union that) incl elem
+
+  override def descendingByRetweet: TweetList = new Cons(mostRetweeted, remove(mostRetweeted).descendingByRetweet)
+
+  // gross.
+  override def mostRetweeted: Tweet = {
+    var x = elem
+    foreach({ y: Tweet => x = if (x.retweets > y.retweets) x else y;})
+    x
+  }
 }
 
 trait TweetList {
