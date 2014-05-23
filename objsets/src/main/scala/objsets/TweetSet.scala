@@ -158,13 +158,8 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     right.foreach(f)
   }
 
-  // gross.
-  override def union(that: TweetSet): TweetSet = {
-    var foo: TweetSet = that
-    foreach({ x =>
-      foo = foo.incl(x)
-    })
-    foo
+  def union(that: TweetSet): TweetSet = {
+    right.union(left.union(that.incl(elem)))
   }
 
   override def descendingByRetweet: TweetList = new Cons(mostRetweeted, remove(mostRetweeted).descendingByRetweet)
