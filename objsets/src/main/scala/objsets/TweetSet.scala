@@ -157,15 +157,11 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     right.foreach(f)
   }
 
-  def union(that: TweetSet): TweetSet = {
-    right.union(left.union(that.incl(elem)))
-  }
+  def union(that: TweetSet): TweetSet = right.union(left.union(that.incl(elem)))
 
   override def descendingByRetweet: TweetList = new Cons(mostRetweeted, remove(mostRetweeted).descendingByRetweet)
 
-  override def mostRetweeted: Tweet = {
-    mostRetweetedAcc(elem)
-  }
+  override def mostRetweeted: Tweet = mostRetweetedAcc(elem)
 
   def mostRetweetedAcc(acc: Tweet): Tweet = {
     right.mostRetweetedAcc(left.mostRetweetedAcc(if (acc.retweets > elem.retweets) acc else elem))
