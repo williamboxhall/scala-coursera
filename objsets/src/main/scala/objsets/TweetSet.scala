@@ -102,6 +102,8 @@ abstract class TweetSet {
    * This method takes a function and applies it to every element in the set.
    */
   def foreach(f: Tweet => Unit): Unit
+
+  def mostRetweetedAcc(maxFound: Tweet): Tweet
 }
 
 class Empty extends TweetSet {
@@ -123,6 +125,8 @@ class Empty extends TweetSet {
   override def mostRetweeted: Tweet = throw new NoSuchElementException("Empty.mostRetweeted")
 
   override def toString = "."
+
+  def mostRetweetedAcc(acc: Tweet): Tweet = acc
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -131,10 +135,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     val foo = if (p(elem)) acc.incl(elem) else acc
     left.filterAcc(p, foo).union(right.filterAcc(p, foo)).union(foo)
   }
-
-  /**
-   * The following methods are already implemented
-   */
 
   def contains(x: Tweet): Boolean =
     if (x.text < elem.text) left.contains(x)
@@ -164,11 +164,12 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   override def descendingByRetweet: TweetList = new Cons(mostRetweeted, remove(mostRetweeted).descendingByRetweet)
 
-  // gross.
   override def mostRetweeted: Tweet = {
-    var x = elem
-    foreach({ y: Tweet => x = if (x.retweets > y.retweets) x else y;})
-    x
+    mostRetweetedAcc(elem)
+  }
+
+  def mostRetweetedAcc(acc: Tweet): Tweet = {
+    right.mostRetweetedAcc(left.mostRetweetedAcc(if (acc.retweets > elem.retweets) acc else elem))
   }
 
   override def toString = "{" + left + elem.user + right + "}"
@@ -199,7 +200,6 @@ object Nil extends TweetList {
 class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
   def isEmpty = false
 }
-
 
 object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
