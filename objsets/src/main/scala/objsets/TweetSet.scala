@@ -159,7 +159,10 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def union(that: TweetSet): TweetSet = right.union(left.union(that.incl(elem)))
 
-  override def descendingByRetweet: TweetList = new Cons(mostRetweeted, remove(mostRetweeted).descendingByRetweet)
+  override def descendingByRetweet: TweetList = {
+    val x = mostRetweeted
+    new Cons(x, remove(x).descendingByRetweet)
+  }
 
   override def mostRetweeted: Tweet = mostRetweetedAcc(elem)
 
