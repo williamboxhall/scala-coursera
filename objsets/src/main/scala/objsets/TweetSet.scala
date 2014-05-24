@@ -39,12 +39,7 @@ abstract class TweetSet {
    * Question: Can we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def filter(p: Tweet => Boolean): TweetSet = filterAcc(p, new Empty)
-
-  /**
-   * This is a helper method for `filter` that propagetes the accumulated tweets.
-   */
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet
+  def filter(p: Tweet => Boolean, acc: TweetSet = new Empty): TweetSet
 
   /**
    * Returns a new `TweetSet` that is the union of `TweetSet`s `this` and `that`.
@@ -108,7 +103,7 @@ abstract class TweetSet {
 
 class Empty extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
+  def filter(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
   def contains(tweet: Tweet): Boolean = false
 
@@ -131,8 +126,8 @@ class Empty extends TweetSet {
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    left.filterAcc(p, right.filterAcc(p, if (p(elem)) acc.incl(elem) else acc))
+  override def filter(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
+    left.filter(p, right.filter(p, if (p(elem)) acc.incl(elem) else acc))
   }
 
   def contains(x: Tweet): Boolean =
@@ -164,7 +159,9 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     new Cons(x, remove(x).descendingByRetweet)
   }
 
-  override def mostRetweeted: Tweet = mostRetweetedAcc(elem)
+  override def mostRetweeted: Tweet = {
+    mostRetweetedAcc(elem)
+  }
 
   def mostRetweetedAcc(acc: Tweet): Tweet = {
     right.mostRetweetedAcc(left.mostRetweetedAcc(if (acc.retweets > elem.retweets) acc else elem))

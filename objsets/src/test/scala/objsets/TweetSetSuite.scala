@@ -75,7 +75,6 @@ class TweetSetSuite extends FunSuite {
 
   test("mostRetweeted: set5") {
     new TestSets {
-      println(set5.mostRetweeted)
       assert(set5.mostRetweeted.user == "a" || set5.mostRetweeted.user == "b")
     }
   }
