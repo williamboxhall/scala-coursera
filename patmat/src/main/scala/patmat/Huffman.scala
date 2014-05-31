@@ -17,8 +17,12 @@ object Huffman {
    * leaves.
    */
   abstract class CodeTree
-  case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree
-  case class Leaf(char: Char, weight: Int) extends CodeTree
+  case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree {
+    override def toString = "{" + left + "," + right + "(" + chars.foldLeft("")(_ + _) + ")" + weight + "}"
+  }
+  case class Leaf(char: Char, weight: Int) extends CodeTree {
+    override def toString = s"$char$weight"
+  }
 
 
 
@@ -94,7 +98,7 @@ object Huffman {
    * of a leaf is the frequency of the character.
    */
   def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
-    freqs sortWith {case ((x, _),(y, _)) => x < y} map { case (char, weight) => Leaf(char, weight)}
+    freqs sortWith { case ((c1, w1), (c2, w2)) => if (w1 == w2) c1 > c2 else w1 < w2 } map { case (c, w) => Leaf(c, w)}
   }
 
   /**
@@ -116,7 +120,13 @@ object Huffman {
    */
   def combine(trees: List[CodeTree]): List[CodeTree] = trees match {
     case Nil | List(_) => trees
-    case x1 :: x2 :: xs => Fork(x1, x2, chars(x1) ::: chars(x2), weight(x1) + weight(x2)) :: xs
+    case x1 :: x2 :: xs =>
+      val dir = chars(x1).head < chars(x2).head
+      val left = if (dir) x1 else x2
+      var right = if (dir) x2 else x1
+      val fork = Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
+      val (lighter, heavier) = xs.span(weight(_) <= fork.weight)
+      (lighter :+ fork) ::: heavier
   }
 
   /**
@@ -146,7 +156,9 @@ object Huffman {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-  def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+  def createCodeTree(chars: List[Char]): CodeTree = {
+    until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+  }
 
   def createCodeTree(string: String): CodeTree = createCodeTree(string2Chars(string))
 
@@ -158,7 +170,22 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = decodeAcc(tree, bits, List(), tree)
+
+  def decodeAcc(subtree: CodeTree, bits: List[Bit], acc: List[Char], root: CodeTree): List[Char] = bits match {
+    case Nil =>
+      println(s"end of bit sequence, final result: $acc")
+      acc
+    case x::xs => subtree match {
+      case Leaf(char, _) =>
+        println(s"Found leaf, adding $char to result")
+        decodeAcc(root, bits, char :: acc, root) // should go to global root but is going to passed fork
+      case Fork(left, right, _, _) =>
+        println(s"Forking $x ")
+        decodeAcc(if (x == 1) right else left, xs, acc, root)
+      case _ => throw new Error("wtf")
+    }
+  }
 
   /**
    * A Huffman coding tree for the French language.
