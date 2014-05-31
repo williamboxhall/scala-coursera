@@ -13,6 +13,7 @@ class HuffmanSuite extends FunSuite {
   trait TestTrees {
     val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
     val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
+    val treeFromExample = createCodeTree("AAAAAAAABBBCDEFGH")
   }
 
   test("weight of a larger tree") {
@@ -68,14 +69,23 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("decode") {
-    val treeFromExample: CodeTree = createCodeTree("AAAAAAAABBBCDEFGH")
-    assert(decode(treeFromExample, List(0)) == List('A'))
-    assert(decode(treeFromExample, List(1, 0, 1, 1)) == List('D'))
-    assert(decode(treeFromExample, List(1, 0, 0, 0, 1, 0, 1, 0)) == List('B', 'A', 'C'))
+    new TestTrees {
+      assert(decode(treeFromExample, List(0)) == List('A'))
+      assert(decode(treeFromExample, List(1, 0, 1, 1)) == List('D'))
+      assert(decode(treeFromExample, List(1, 0, 0, 0, 1, 0, 1, 0)) == List('B', 'A', 'C'))
+    }
   }
 
   test("decoded secret") {
     assert(decodedSecret.foldLeft("")(_ + _) === "huffmanestcool")
+  }
+
+  test("encode") {
+    new TestTrees {
+      assert(encode(treeFromExample)(List('A')) === List(0))
+      assert(encode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
+      assert(encode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
+    }
   }
 
   test("decode and encode a very short text should be identity") {
