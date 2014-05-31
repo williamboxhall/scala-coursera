@@ -1,8 +1,8 @@
-def pack[T](list: List[T]): List[List[T]] = list match {
+def pack[T](xs: List[T]): List[List[T]] = xs match {
   case Nil => Nil
-  case x :: xs =>
-    val span: (List[T], List[T]) = xs.span(_ == x)
-    (x :: span._1) :: pack(span._2)
+  case x :: _ =>
+    val (matches, rest) = xs.span(_ == x)
+    matches :: pack(rest)
 }
 
 pack(List("a", "a", "a", "b", "c", "c", "a"))
