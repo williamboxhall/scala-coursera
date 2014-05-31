@@ -62,17 +62,16 @@ class HuffmanSuite extends FunSuite {
 
   test("createCodeTree") {
     new TestTrees {
-      assert(createCodeTree("abacba") ==
-        Fork(Fork(Leaf('c', 1), Leaf('b', 2), List('c', 'b'), 3), Leaf('a', 3), List('c', 'b', 'a'), 6))
+      assert(createCodeTree("abacba") ===
+        Fork(Leaf('a', 3), Fork(Leaf('b', 2), Leaf('c', 1), List('b', 'c'), 3), List('a', 'b', 'c'), 6))
     }
   }
 
   test("decode") {
-    println(createCodeTree("AAAAAAAABBBCDEFGH"))
-    //assert(decode(createCodeTree("abacba"), List(1, 0, 1, 1)) == List('d'))
-    //println(decode(createCodeTree("aaaaaaaaabbbcdefgh"), List(1, 0, 1, 1)))
-    assert(decode(createCodeTree("AAAAAAAABBBCDEFGH"), List(1, 0, 1, 1)) == List('D'))
-    //assert(decode(createCodeTree("aaaaaaaaabbbcdefgh"), List(1, 0, 0, 0, 1, 0, 1, 0)) == List('b', 'a', 'c'))
+    val treeFromExample: CodeTree = createCodeTree("AAAAAAAABBBCDEFGH")
+    assert(decode(treeFromExample, List(0)) == List('A'))
+    assert(decode(treeFromExample, List(1, 0, 1, 1)) == List('D'))
+    assert(decode(treeFromExample, List(1, 0, 0, 0, 1, 0, 1, 0)) == List('B', 'A', 'C'))
   }
 
   test("decode and encode a very short text should be identity") {
@@ -80,10 +79,4 @@ class HuffmanSuite extends FunSuite {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
   }
-
-  //{A8,{{{G1,H1(GH)2},{E1,F1(EF)2}(GHEF)4},{{C1,D1(CD)2},B3(CDB)5}(GHEFCDB)9}(AGHEFCDB)17}
-
-
-
-  //Fork(Fork(Fork(Fork(Leaf(C,1),Leaf(E,1),List(C, E),2),Leaf(G,1),List(C, E, G),3),Leaf(B,3),List(C, E, G, B),6),Fork(Fork(Fork(Leaf(D,1),Leaf(F,1),List(D, F),2),Leaf(H,1),List(D, F, H),3),Leaf(A,8),List(D, F, H, A),11),List(C, E, G, B, D, F, H, A),17)
 }

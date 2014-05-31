@@ -172,18 +172,11 @@ object Huffman {
    */
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = decodeAcc(tree, bits, List(), tree)
 
-  def decodeAcc(subtree: CodeTree, bits: List[Bit], acc: List[Char], root: CodeTree): List[Char] = bits match {
-    case Nil =>
-      println(s"end of bit sequence, final result: $acc")
-      acc
-    case x::xs => subtree match {
-      case Leaf(char, _) =>
-        println(s"Found leaf, adding $char to result")
-        decodeAcc(root, bits, char :: acc, root) // should go to global root but is going to passed fork
-      case Fork(left, right, _, _) =>
-        println(s"Forking $x ")
-        decodeAcc(if (x == 1) right else left, xs, acc, root)
-      case _ => throw new Error("wtf")
+  def decodeAcc(subtree: CodeTree, bits: List[Bit], acc: List[Char], root: CodeTree): List[Char] = subtree match {
+    case Leaf(char, _) => decodeAcc(root, bits, acc :+ char, root)
+    case Fork(left, right, chars, _) => bits match {
+      case Nil => acc
+      case x :: xs => decodeAcc(if (x == 1) right else left, xs, acc, root)
     }
   }
 
