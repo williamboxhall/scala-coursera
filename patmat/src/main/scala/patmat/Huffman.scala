@@ -79,7 +79,7 @@ object Huffman {
    * println("integer is  : "+ theInt)
    * }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = encode(chars.sorted) // TODO this could be more optimal
+  def times(chars: List[Char]): List[(Char, Int)] = encode(chars.sorted)
 
   def encode[T](xs: List[T]): List[(T, Int)] = xs match {
     case Nil => Nil
