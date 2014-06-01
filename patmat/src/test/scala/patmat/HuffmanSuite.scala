@@ -88,6 +88,14 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("quickEncode") {
+    new TestTrees {
+      assert(quickEncode(treeFromExample)(List('A')) === List(0))
+      assert(quickEncode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
+      assert(quickEncode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
+    }
+  }
+
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
