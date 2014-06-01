@@ -9,29 +9,20 @@ import patmat.Huffman._
 
 @RunWith(classOf[JUnitRunner])
 class HuffmanSuite extends FunSuite {
-
-  trait TestTrees {
-    val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
-    val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
-    val treeFromExample = createCodeTree("AAAAAAAABBBCDEFGH")
-  }
+  val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
+  val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
+  val treeFromExample = createCodeTree("AAAAAAAABBBCDEFGH")
 
   test("weight of a larger tree") {
-    new TestTrees {
-      assert(weight(t1) === 5)
-    }
+    assert(weight(t1) === 5)
   }
 
   test("chars of a larger tree") {
-    new TestTrees {
-      assert(chars(t2) === List('a', 'b', 'd'))
-    }
+    assert(chars(t2) === List('a', 'b', 'd'))
   }
 
   test("times") {
-    new TestTrees {
-      assert(times(List('a', 'b', 'a')) === List(('a', 2), ('b', 1)))
-    }
+    assert(times(List('a', 'b', 'a')) === List(('a', 2), ('b', 1)))
   }
 
   test("string2chars(\"hello, world\")") {
@@ -47,13 +38,11 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("singleton") {
-    new TestTrees {
-      assert(singleton(List(Leaf('a', 1))))
-      assert(singleton(List(t1)))
-      assert(singleton(List(t2)))
-      assert(!singleton(List(Leaf('a', 1), Leaf('v', 1))))
-      assert(!singleton(List()))
-    }
+    assert(singleton(List(Leaf('a', 1))))
+    assert(singleton(List(t1)))
+    assert(singleton(List(t2)))
+    assert(!singleton(List(Leaf('a', 1), Leaf('v', 1))))
+    assert(!singleton(List()))
   }
 
   test("combine of some leaf list") {
@@ -62,18 +51,14 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("createCodeTree") {
-    new TestTrees {
-      assert(createCodeTree("abacba") ===
-        Fork(Leaf('a', 3), Fork(Leaf('b', 2), Leaf('c', 1), List('b', 'c'), 3), List('a', 'b', 'c'), 6))
-    }
+    assert(createCodeTree("abacba") ===
+      Fork(Leaf('a', 3), Fork(Leaf('b', 2), Leaf('c', 1), List('b', 'c'), 3), List('a', 'b', 'c'), 6))
   }
 
   test("decode") {
-    new TestTrees {
-      assert(decode(treeFromExample, List(0)) == List('A'))
-      assert(decode(treeFromExample, List(1, 0, 1, 1)) == List('D'))
-      assert(decode(treeFromExample, List(1, 0, 0, 0, 1, 0, 1, 0)) == List('B', 'A', 'C'))
-    }
+    assert(decode(treeFromExample, List(0)) === List('A'))
+    assert(decode(treeFromExample, List(1, 0, 1, 1)) === List('D'))
+    assert(decode(treeFromExample, List(1, 0, 0, 0, 1, 0, 1, 0)) === List('B', 'A', 'C'))
   }
 
   test("decoded secret") {
@@ -81,24 +66,18 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("encode") {
-    new TestTrees {
-      assert(encode(treeFromExample)(List('A')) === List(0))
-      assert(encode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
-      assert(encode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
-    }
+    assert(encode(treeFromExample)(List('A')) === List(0))
+    assert(encode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
+    assert(encode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
   }
 
   test("quickEncode") {
-    new TestTrees {
-      assert(quickEncode(treeFromExample)(List('A')) === List(0))
-      assert(quickEncode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
-      assert(quickEncode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
-    }
+    assert(quickEncode(treeFromExample)(List('A')) === List(0))
+    assert(quickEncode(treeFromExample)(List('D')) === List(1, 0, 1, 1))
+    assert(quickEncode(treeFromExample)(List('B', 'A', 'C')) === List(1, 0, 0, 0, 1, 0, 1, 0))
   }
 
   test("decode and encode a very short text should be identity") {
-    new TestTrees {
-      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
-    }
+    assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
   }
 }
