@@ -1,6 +1,7 @@
 package forcomp
 
 import common._
+import scala.collection.immutable.IndexedSeq
 
 object Anagrams {
 
@@ -82,7 +83,19 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = occurrences match {
+    case Nil => List(List())
+    case (c,n)::xs =>
+      val agnostic: List[Occurrences] = combinations(xs)
+      val combined: List[List[(Char, Int)]] = for {
+        o <- agnostic
+        i <- 1 to n
+      } yield (c, i) :: o
+      val independent = (for {
+        i <- 1 to n
+      } yield List((c, i))).toList
+      combined ::: independent ::: agnostic
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
