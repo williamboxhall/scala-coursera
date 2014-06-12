@@ -91,11 +91,10 @@ object Anagrams {
         o <- agnostic
         i <- 1 to n
       } yield (c, i) :: o
-      val independent = (for {
-        i <- 1 to n
-      } yield List((c, i))).toList
-      combined ::: independent ::: agnostic
+      combined ::: agnostic
   }
+
+  //
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
