@@ -35,7 +35,7 @@ object Anagrams {
    *  same character, and are represented as a lowercase character in the occurrence list.
    */
   def wordOccurrences(w: Word): Occurrences = {
-    (w.toLowerCase groupBy ((c: Char) => c) mapValues (_.length)).toList.sorted
+    (w.toLowerCase groupBy (c => c) mapValues (_.length)).toList.sorted
   }
 
   /** Converts a sentence into its character occurrence list. */
@@ -96,6 +96,8 @@ object Anagrams {
 
   //
 
+
+
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
    *  The precondition is that the occurrence list `y` is a subset of
@@ -106,7 +108,9 @@ object Anagrams {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    y.foldLeft(x.toMap) { case (z, (c, n)) => z.updated(c, z(c) - n)}.toList.filter {case (c,n) => n != 0}
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *  
