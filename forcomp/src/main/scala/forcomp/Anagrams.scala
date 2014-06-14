@@ -153,25 +153,39 @@ object Anagrams {
     * Note: There is only one anagram of an empty sentence.
     */
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
-    def sentencesForOccurences(occurrences: Occurrences): List[Sentence] = {
+    def sentencesForOccurences(occurrences: Occurrences, depth: Int): List[Sentence] = {
       occurrences match {
         case List() => List(List())
         case _ =>
-          val combinations1: List[Occurrences] = combinations(occurrences)
+          val combinations1: List[Occurrences] = combinations(occurrences.sorted)
+          //println("combinations: " + combinations1)
           for {
             combo <- combinations1
-            word <- dictionaryByOccurrences(combo)
-            restOfSentence <- sentencesForOccurences(subtract(occurrences, wordOccurrences(word)))
+            word <- {
+              val occurrences1: List[Word] = dictionaryByOccurrences(combo)
+              occurrences1
+            }
+
+            restOfSentence <- {
+              //println("depth: " + depth)
+              println("word: " + word)
+              if (word == "rulez") {
+                println("rulez")
+              }
+              val sfo: List[Sentence] = sentencesForOccurences(subtract(occurrences, wordOccurrences(word)), depth + 1)
+              //println(s"$word has potential followers $sfo: ")
+              sfo
+            }
           } yield {
             //println(s"combinations1 $combinations1")
-            //println(s"combining $word with $restOfSentence")
+            println(s"combining $word with $restOfSentence")
             word :: restOfSentence
           }
       }
     }
     println("sentence: " + sentence)
     println("sentenceOccurences: " + sentenceOccurrences(sentence))
-    sentencesForOccurences(sentenceOccurrences(sentence))
+    sentencesForOccurences(sentenceOccurrences(sentence), 1)
   }
 }
 
