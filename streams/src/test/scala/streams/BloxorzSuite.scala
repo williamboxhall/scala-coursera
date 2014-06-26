@@ -72,4 +72,15 @@ class BloxorzSuite extends FunSuite {
       assert(!Block(Pos(0,0), Pos(1,0)).isStanding)
     }
   }
+
+  test("isLegal") {
+      new Level1 {
+        assert(Block(Pos(0,0), Pos(0,0)).isLegal)
+        assert(Block(Pos(0,0), Pos(1,0)).isLegal)
+        assert(Block(Pos(0,0), Pos(0,1)).isLegal)
+        assert(Block(Pos(1,0), Pos(2,0)).isLegal)
+        assert(!Block(Pos(2,0), Pos(3,0)).isLegal)
+        assert(!Block(Pos(3,0), Pos(4,0)).isLegal)
+      }
+    }
 }
