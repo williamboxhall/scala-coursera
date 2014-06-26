@@ -44,6 +44,8 @@ class BloxorzSuite extends FunSuite {
       assert(!terrain(Pos(0, 5)), "0,0")
       assert(!terrain(Pos(4, 11)), "4,11")
       assert(!terrain(Pos(11, 4)), "11,4")
+      assert(!terrain(Pos(-1, 0)), "-1,0")
+      assert(!terrain(Pos(0, -1)), "0,-1")
     }
   }
 
@@ -86,7 +88,27 @@ class BloxorzSuite extends FunSuite {
 
   test("startBlock") {
     new Level1 {
-      assert(startBlock == Block(Pos(1, 1), Pos(1, 1)))
+      assert(startBlock === Block(Pos(1, 1), Pos(1, 1)))
+    }
+  }
+
+  test("neighbors") {
+    new Level1 {
+      assert(Block(Pos(0, 2), Pos(0, 2)).neighbors === List(
+        (Block(Pos(0, 0), Pos(0, 1)), Left),
+        (Block(Pos(0, 3), Pos(0, 4)), Right),
+        (Block(Pos(-2, 2), Pos(-1, 2)), Up),
+        (Block(Pos(1, 2), Pos(2, 2)), Down)
+      ))
+    }
+  }
+
+  test("legalNeighbors") {
+    new Level1 {
+      assert(Block(Pos(0, 2), Pos(0, 2)).legalNeighbors === List(
+        (Block(Pos(0, 0), Pos(0, 1)), Left),
+        (Block(Pos(1, 2), Pos(2, 2)), Down)
+      ))
     }
   }
 }
