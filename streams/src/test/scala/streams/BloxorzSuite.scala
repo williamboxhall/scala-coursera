@@ -21,35 +21,35 @@ class BloxorzSuite extends FunSuite {
         case Up => block.up
         case Down => block.down
       }
-    }
+      }
   }
 
   trait Level1 extends SolutionChecker {
-      /* terrain for level 1*/
+    /* terrain for level 1*/
 
     val level =
-    """ooo-------
-      |oSoooo----
-      |ooooooooo-
-      |-ooooooooo
-      |-----ooToo
-      |------ooo-""".stripMargin
+      """ooo-------
+        |oSoooo----
+        |ooooooooo-
+        |-ooooooooo
+        |-----ooToo
+        |------ooo-""".stripMargin
 
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
   test("terrain function level 1") {
     new Level1 {
-      assert(terrain(Pos(0,0)), "0,0")
-      assert(!terrain(Pos(0,5)), "0,0")
-      assert(!terrain(Pos(4,11)), "4,11")
-      assert(!terrain(Pos(11,4)), "11,4")
+      assert(terrain(Pos(0, 0)), "0,0")
+      assert(!terrain(Pos(0, 5)), "0,0")
+      assert(!terrain(Pos(4, 11)), "4,11")
+      assert(!terrain(Pos(11, 4)), "11,4")
     }
   }
 
   test("findChar level 1") {
     new Level1 {
-      assert(startPos == Pos(1,1))
+      assert(startPos == Pos(1, 1))
     }
   }
 
@@ -67,20 +67,26 @@ class BloxorzSuite extends FunSuite {
 
   test("isStanding") {
     new Level1 {
-      assert(Block(Pos(0,0), Pos(0,0)).isStanding)
-      assert(!Block(Pos(0,0), Pos(0,1)).isStanding)
-      assert(!Block(Pos(0,0), Pos(1,0)).isStanding)
+      assert(Block(Pos(0, 0), Pos(0, 0)).isStanding)
+      assert(!Block(Pos(0, 0), Pos(0, 1)).isStanding)
+      assert(!Block(Pos(0, 0), Pos(1, 0)).isStanding)
     }
   }
 
   test("isLegal") {
-      new Level1 {
-        assert(Block(Pos(0,0), Pos(0,0)).isLegal)
-        assert(Block(Pos(0,0), Pos(1,0)).isLegal)
-        assert(Block(Pos(0,0), Pos(0,1)).isLegal)
-        assert(Block(Pos(1,0), Pos(2,0)).isLegal)
-        assert(!Block(Pos(2,0), Pos(3,0)).isLegal)
-        assert(!Block(Pos(3,0), Pos(4,0)).isLegal)
-      }
+    new Level1 {
+      assert(Block(Pos(0, 0), Pos(0, 0)).isLegal)
+      assert(Block(Pos(0, 0), Pos(1, 0)).isLegal)
+      assert(Block(Pos(0, 0), Pos(0, 1)).isLegal)
+      assert(Block(Pos(1, 0), Pos(2, 0)).isLegal)
+      assert(!Block(Pos(2, 0), Pos(3, 0)).isLegal)
+      assert(!Block(Pos(3, 0), Pos(4, 0)).isLegal)
     }
+  }
+
+  test("startBlock") {
+    new Level1 {
+      assert(startBlock == Block(Pos(1, 1), Pos(1, 1)))
+    }
+  }
 }
