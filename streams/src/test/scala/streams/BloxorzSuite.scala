@@ -5,8 +5,6 @@ import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-import Bloxorz._
-
 @RunWith(classOf[JUnitRunner])
 class BloxorzSuite extends FunSuite {
 
@@ -64,6 +62,14 @@ class BloxorzSuite extends FunSuite {
   test("optimal solution length for level 1") {
     new Level1 {
       assert(solution.length == optsolution.length)
+    }
+  }
+
+  test("isStanding") {
+    new Level1 {
+      assert(Block(Pos(0,0), Pos(0,0)).isStanding)
+      assert(!Block(Pos(0,0), Pos(0,1)).isStanding)
+      assert(!Block(Pos(0,0), Pos(1,0)).isStanding)
     }
   }
 }
