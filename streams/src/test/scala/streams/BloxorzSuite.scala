@@ -111,4 +111,11 @@ class BloxorzSuite extends FunSuite {
       ))
     }
   }
+
+  test("done") {
+    new Level1 {
+      assert(done(Block(Pos(4, 7), Pos(4, 7))))
+      assert(!done(Block(Pos(4, 6), Pos(4, 7))))
+    }
+  }
 }
