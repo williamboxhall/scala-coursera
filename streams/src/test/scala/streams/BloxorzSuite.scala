@@ -118,4 +118,13 @@ class BloxorzSuite extends FunSuite {
       assert(!done(Block(Pos(4, 6), Pos(4, 7))))
     }
   }
+
+  test("neighborsWithHistory - empty history") {
+    new Level1 {
+      assert(neighborsWithHistory(Block(Pos(0, 2), Pos(0, 2)), Nil) === Stream(
+        (Block(Pos(0, 0), Pos(0, 1)), List(Left)),
+        (Block(Pos(1, 2), Pos(2, 2)), List(Down))
+      ))
+    }
+  }
 }
