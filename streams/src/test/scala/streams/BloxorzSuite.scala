@@ -71,25 +71,25 @@ class BloxorzSuite extends FunSuite {
 
   test("optimal solution for level 0") {
     new Level0 {
-      assert(solve(solution) == Block(goal, goal))
+      assert(solve(solution) === Block(goal, goal))
     }
   }
 
   test("optimal solution length for level 0") {
     new Level0 {
-      assert(solution.length == optsolution.length)
+      assert(solution.length === optsolution.length)
     }
   }
 
   test("optimal solution for level 1") {
     new Level1 {
-      assert(solve(solution) == Block(goal, goal))
+      assert(solve(solution) === Block(goal, goal))
     }
   }
 
   test("optimal solution length for level 1") {
     new Level1 {
-      assert(solution.length == optsolution.length)
+      assert(solution.length === optsolution.length)
     }
   }
 
@@ -183,6 +183,25 @@ class BloxorzSuite extends FunSuite {
         (Block(Pos(1, 2), Pos(1, 2)), List()),
         (Block(Pos(2, 2), Pos(3, 2)), List(Down)),
         (Block(Pos(2, 3), Pos(3, 3)), List(Right, Down)),
+        (Block(Pos(1, 3), Pos(1, 3)), List(Up, Right, Down))
+      ))
+    }
+  }
+
+  test("pathsFromStart level 0") {
+    new Level0 {
+      assert(pathsFromStart.toList === List(
+        (Block(Pos(1, 2), Pos(1, 2)), List()),
+        (Block(Pos(2, 2), Pos(3, 2)), List(Down)),
+        (Block(Pos(2, 3), Pos(3, 3)), List(Right, Down)),
+        (Block(Pos(1, 3), Pos(1, 3)), List(Up, Right, Down))
+      ))
+    }
+  }
+
+  test("pathsToGoal level 0") {
+    new Level0 {
+      assert(pathsToGoal.toList === List(
         (Block(Pos(1, 3), Pos(1, 3)), List(Up, Right, Down))
       ))
     }
