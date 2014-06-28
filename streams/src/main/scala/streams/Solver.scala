@@ -65,7 +65,17 @@ trait Solver extends GameDef {
    * construct the correctly sorted stream.
    */
   def from(initial: Stream[(Block, List[Move])],
-           explored: Set[Block]): Stream[(Block, List[Move])] = ???
+           explored: Set[Block]): Stream[(Block, List[Move])] = {
+    if (initial.isEmpty) Stream.empty
+    else {
+      val more = for {
+        (block, path) <- initial
+        (next, move) <- block.legalNeighbors
+        if !explored.contains(next)
+      } yield (next, move :: path)
+      initial #::: from(more, explored ++ (more map { case (b, _) => b}))
+    }
+  }
 
   /**
    * The stream of all paths that begin at the starting block.
