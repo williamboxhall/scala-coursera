@@ -51,6 +51,17 @@ class BloxorzSuite extends FunSuite {
     val optsolution = List(Down, Right, Up)
   }
 
+  trait ImpossibleLevel extends SolutionChecker {
+    /* terrain for impossible level */
+
+    val level =
+      """------
+        |--ST--
+        |--oo--
+        |------""".stripMargin
+
+  }
+
 
   test("terrain function level 1") {
     new Level1 {
@@ -212,4 +223,10 @@ class BloxorzSuite extends FunSuite {
       assert(solution.toList === List(Down, Right, Up))
     }
   }
+
+  test("solution for impossible level") {
+      new ImpossibleLevel {
+        assert(solution.toList === List())
+      }
+    }
 }
