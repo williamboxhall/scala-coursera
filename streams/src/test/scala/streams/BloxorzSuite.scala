@@ -206,4 +206,10 @@ class BloxorzSuite extends FunSuite {
       ))
     }
   }
+
+  test("solution level 0") {
+    new Level0 {
+      assert(solution.toList === List(Down, Right, Up))
+    }
+  }
 }
